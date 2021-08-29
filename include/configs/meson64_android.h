@@ -141,6 +141,14 @@
 	"adtimg addr $dtboaddr; " \
 	"adtimg get dt --index=$dtbo_index dtbo0_addr; " \
 	"fdt apply $dtbo0_addr;" \
+	"echo \"  Reading Project DTBOs dos vera...\"; " \
+	"for p_dtbo in 4 5 6; do " \
+		"setenv dtbo_prj 0;" \
+		"adtimg get dt --index=${p_dtbo} dtbo_prj;" \
+		"if test \"${dtbo_prj}\" -ne 0; then " \
+			"fdt apply $dtbo_prj;" \
+		"fi; "\
+	"done; "\
 	"setenv bootargs \"$bootargs androidboot.dtbo_idx=$dtbo_index \";"\
 
 #define BOOT_CMD "bootm ${loadaddr} ${loadaddr} ${fdt_addr_r};"
